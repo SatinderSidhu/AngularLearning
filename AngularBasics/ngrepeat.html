@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" data-ng-app="">
+<head>
+    <title></title>
+</head>
+<body>
+    <h2> Ng repeat section</h2>
+    <input type="text" name="myname" data-ng-model="myname" value=" " placeholder="enter your name please" style="width:250px" />
+    <h2>{{myname}}</h2>
+    <section data-ng-init="names=['satinder','kamal','jasleen','sukhmani','kamal','kamal','kamal','kamal','kamal']">
+        <ul>
+            <li data-ng-repeat="name in names track by $index">
+                {{$index}} : {{name }}
+                <span ng-if="$first" style="background-color:yellow">This is the first item in the list</span>
+                <span ng-if="$last" style="background-color:red">This is the last item in the list</span>
+                <span ng-if="$middle" style="background-color:green">This is the middle item in the list</span>
+                <span ng-if="$odd" style="background-color:pink">ODD</span>
+            </li>
+        </ul>
+
+    </section>
+
+
+    <section data-ng-init="allnames=[{name:'satinder',city:'NJ'},{name:'kamal',city:'DT'},{name:'Jasleen',city:'BPA'},{name:'Sukhmani',city:'NY'}]">
+        <ul>
+            <li data-ng-repeat="name in allnames | orderBy :'name'">
+                {{$index}} : {{name.name }}  | {{name.city}}
+                <span ng-if="$first" style="background-color:yellow">This is the first item in the list</span>
+                <span ng-if="$last" style="background-color:red">This is the last item in the list</span>
+
+                <span ng-if="$odd" style="background-color:pink">ODD</span>
+
+            </li>
+        </ul>
+
+    </section>
+
+    <h2> filtering </h2>
+
+    <section data-ng-init="bestnames=[{name:'satinder',city:'NJ',bankbalance:'200',dob:'8/16/1979'},{name:'kamal',city:'DT',bankbalance:'200',dob:'1288323623006'},{name:'Jasleen',city:'BPA',bankbalance:'200.12',dob:'1288323623006'},{name:'Sukhmani',city:'NY',bankbalance:'200'}]">
+        <input type="text" name="filername" data-ng-model="filtername" value=" " placeholder="Sort the name" style="width:250px" />
+        <input type="text" name="filername" data-ng-model="filtername.city" value=" " placeholder="Sort by city" style="width:250px" />
+        <ul>
+            <li data-ng-repeat="name in bestnames | orderBy :'name' | filter:filtername as results">
+                {{$index}} : {{name.name |uppercase }}  | {{name.city | lowercase}} | US Balance {{name.bankbalance | currency:"USD$"}}| INR Balance {{name.bankbalance | currency:"INR":1}}
+                | DOB {{name.dob | date:'MM/dd/yyyy @ h:mma'}}
+
+                <span ng-if="results.length==0" style="background-color:yellow">No record found</span>
+            </li>
+            <li ng-if="results.length==0" style="list-style:none">
+                <span style="background-color:yellow">No record found</span>
+            </li>
+        </ul>
+        <h2>Search</h2>
+        <div ng-init="friends = [{name:'John', phone:'555-1276'},
+                         {name:'Mary', phone:'800-BIG-MARY'},
+                         {name:'Mike', phone:'555-4321'},
+                         {name:'Adam', phone:'555-5678'},
+                         {name:'Julie', phone:'555-8765'},
+                         {name:'Juliette', phone:'555-5678'}]"></div>
+
+        <label>Search: <input ng-model="searchText"></label>
+        <table id="searchTextResults">
+            <tr><th>Name</th><th>Phone</th></tr>
+            <tr ng-repeat="friend in friends | filter:searchText">
+                <td>{{friend.name}}</td>
+                <td>{{friend.phone}}</td>
+            </tr>
+        </table>
+        <hr>
+        <label>Any: <input ng-model="search.$"></label> <br>
+        <label>Name only <input ng-model="search.name"></label><br>
+        <label>Phone only <input ng-model="search.phone"></label><br>
+        <label>Equality <input type="checkbox" ng-model="strict"></label><br>
+        <table id="searchObjResults">
+            <tr><th>Name</th><th>Phone</th></tr>
+            <tr ng-repeat="friendObj in friends | filter:search:strict">
+                <td>{{friendObj.name}}</td>
+                <td>{{friendObj.phone}}</td>
+            </tr>
+        </table>
+
+    </section>
+
+    <script src="Scripts/angular.js"></script>
+</body>
+</html>
